@@ -6,7 +6,7 @@ import { RoastRequest, RoastResult } from "@/types/roast";
 
 function friendlyErrorMessage(status: number | undefined, message: string): string {
   if (status === 400) {
-    return "Invalid request format or input invalid for Gemini model.";
+    return `Invalid request format or input invalid for Gemini model. (${message})`;
   }
   if (status === 403) {
     return "Invalid or unauthorized GEMINI_API_KEY. Please check your .env.local file.";
