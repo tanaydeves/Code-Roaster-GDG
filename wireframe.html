@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full antialiased">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Roaster — Visual Wireframe & Design Specification</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300..800;1,300..800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #111111;
+      --canvas: #F5F5F3;
+      --panel: #FDFDFD;
+      --subtle: #E6E6E2;
+      --accent: #D94826;
+      --fatal: #D94826;
+      --smell: #D97706;
+      --opt: #059669;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-radius: 0 !important; /* Strict architectural blueprint: sharp corners everywhere */
+    }
+
+    body {
+      background-color: var(--canvas);
+      background-image: 
+        linear-gradient(to right, rgba(17, 17, 17, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(17, 17, 17, 0.05) 1px, transparent 1px);
+      background-size: 24px 24px;
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 24px 16px;
+    }
+
+    /* Page Header Banner */
+    .blueprint-header {
+      max-width: 1360px;
+      margin: 0 auto 16px auto;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 12px;
+    }
+
+    .blueprint-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .blueprint-nav {
+      display: flex;
+      gap: 8px;
+    }
+
+    .tab-btn {
+      background: var(--panel);
+      border: 1px solid var(--ink);
+      padding: 4px 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+    }
+
+    .tab-btn.active {
+      background: var(--ink);
+      color: var(--panel);
+    }
+
+    /* Main Workstation Container */
+    .workstation {
+      max-width: 1360px;
+      margin: 0 auto;
+      width: 100%;
+      background: var(--panel);
+      border: 2px solid var(--ink);
+      box-shadow: 6px 6px 0px rgba(17, 17, 17, 0.15);
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--ink);
+      background: var(--panel);
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-name {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .version-tag {
+      border: 1px solid var(--ink);
+      padding: 2px 6px;
+      font-size: 10px;
+      font-weight: 700;
+      background: var(--canvas);
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .radio-label {
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 6px;
+    }
+
+    .select-custom {
+      appearance: none;
+      background: var(--panel);
+      border: 1px solid var(--ink);
+      padding: 6px 24px 6px 10px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      cursor: pointer;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+    }
+
+    .btn-dashed {
+      border: 1px dashed var(--ink);
+      background: transparent;
+      padding: 6px 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #FFFFFF;
+      border: 2px solid var(--ink);
+      padding: 8px 16px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 2px 2px 0px var(--ink);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.95;
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0px var(--ink);
+    }
+
+    .shortcut-badge {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 1px 5px;
+      font-size: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    /* Error Message Drawer */
+    .error-drawer {
+      border-bottom: 2px solid var(--ink);
+      background: #FFF8F6;
+      padding: 12px 16px;
+      display: none;
+    }
+
+    .error-drawer.open {
+      display: block;
+    }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .drawer-textarea {
+      width: 100%;
+      height: 60px;
+      background: var(--panel);
+      border: 1px solid var(--ink);
+      padding: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      resize: vertical;
+    }
+
+    /* Two Column Body */
+    .workstation-body {
+      display: flex;
+      flex: 1;
+      min-height: 520px;
+    }
+
+    @media (max-width: 900px) {
+      .workstation-body {
+        flex-direction: column;
+      }
+    }
+
+    /* Code Editor Panel (Left 55%) */
+    .editor-panel {
+      flex: 55;
+      border-right: 2px solid var(--ink);
+      display: flex;
+      flex-direction: column;
+      background: var(--panel);
+    }
+
+    .panel-header {
+      height: 40px;
+      border-bottom: 1px solid var(--ink);
+      background: var(--canvas);
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+    }
+
+    .editor-container {
+      display: flex;
+      flex: 1;
+      position: relative;
+      background: var(--panel);
+    }
+
+    .gutter {
+      width: 48px;
+      border-right: 1px solid var(--subtle);
+      background: var(--canvas);
+      color: #888888;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 12px 8px;
+      text-align: right;
+      user-select: none;
+      line-height: 1.6;
+    }
+
+    .gutter-line.error-target {
+      background: var(--accent);
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    .code-textarea {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.6;
+      background: transparent;
+      resize: none;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    .editor-status-strip {
+      height: 28px;
+      border-top: 1px solid var(--subtle);
+      background: var(--canvas);
+      padding: 0 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      color: #666666;
+      text-transform: uppercase;
+    }
+
+    /* Report Panel (Right 45%) */
+    .report-panel {
+      flex: 45;
+      display: flex;
+      flex-direction: column;
+      background: var(--panel);
+    }
+
+    .state-container {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    /* State 1: Empty */
+    .empty-state {
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 320px;
+    }
+
+    .state-icon-box {
+      width: 64px;
+      height: 64px;
+      border: 2px dashed var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      background: var(--canvas);
+    }
+
+    .state-icon-box.loading {
+      border-style: solid;
+      animation: spin 1.5s linear infinite;
+    }
+
+    .state-icon-box.error {
+      border-style: solid;
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .state-title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .state-desc {
+      font-size: 11px;
+      color: #666666;
+      line-height: 1.5;
+    }
+
+    /* Results View Sections */
+    .section-block {
+      margin-bottom: 24px;
+    }
+
+    .section-header {
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 4px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-num-title {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .roast-quote {
+      border-left: 3px solid var(--ink);
+      padding: 12px 16px;
+      background: var(--canvas);
+      font-style: normal;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* Issue Card */
+    .issue-card {
+      border: 1px solid var(--ink);
+      background: var(--panel);
+      padding: 12px;
+      margin-bottom: 12px;
+      box-shadow: 2px 2px 0px var(--subtle);
+    }
+
+    .issue-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .chip {
+      background: var(--ink);
+      color: #FFFFFF;
+      padding: 2px 6px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .badge-fatal {
+      background: #FEE2E2;
+      color: var(--fatal);
+      border: 1px solid var(--fatal);
+      padding: 2px 6px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .badge-smell {
+      background: #FEF3C7;
+      color: var(--smell);
+      border: 1px solid var(--smell);
+      padding: 2px 6px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .code-snippet-box {
+      border: 1px solid var(--subtle);
+      border-left: 3px solid var(--accent);
+      background: var(--canvas);
+      padding: 8px 12px;
+      font-size: 12px;
+      margin: 8px 0;
+      white-space: pre-wrap;
+    }
+
+    .diag-line {
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .diag-x {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .diag-v {
+      color: var(--opt);
+      font-weight: 700;
+    }
+
+    /* Fixed Code Block */
+    .fixed-code-container {
+      border: 1px solid var(--ink);
+      background: var(--panel);
+    }
+
+    .fixed-code-header {
+      background: var(--canvas);
+      border-bottom: 1px solid var(--ink);
+      padding: 6px 12px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .fixed-code-body {
+      padding: 12px;
+      font-size: 12px;
+      background: #FAF9F6;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    .fixed-code-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--ink);
+      background: var(--panel);
+      padding: 6px 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+
+    .btn-secondary:hover {
+      background: var(--ink);
+      color: var(--panel);
+    }
+
+    /* Status Bar */
+    .status-bar {
+      border-top: 2px solid var(--ink);
+      background: var(--canvas);
+      padding: 8px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .status-row-main {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .status-indicator {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: var(--opt);
+      margin-right: 6px;
+    }
+
+    .credits-row {
+      text-align: center;
+      font-size: 10px;
+      color: #777777;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-top: 1px solid var(--subtle);
+      padding-top: 4px;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Blueprint Control Bar for Wireframe Review -->
+  <header class="blueprint-header">
+    <div class="blueprint-title">
+      CODE ROASTER // DESIGN SPECIFICATION & WIREFRAME
+    </div>
+    <div class="blueprint-nav">
+      <button class="tab-btn active" onclick="switchReportState('results')">View: Results State</button>
+      <button class="tab-btn" onclick="switchReportState('empty')">View: Empty State</button>
+      <button class="tab-btn" onclick="switchReportState('loading')">View: Loading State</button>
+      <button class="tab-btn" onclick="switchReportState('error')">View: Error State</button>
+    </div>
+  </header>
+
+  <!-- Workstation Card -->
+  <main class="workstation">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="brand">
+        <span class="brand-name">Code Roaster</span>
+        <span class="version-tag">v3</span>
+      </div>
+
+      <div class="controls">
+        <div class="control-group">
+          <span style="font-weight: 700;">Roast Level:</span>
+          <label class="radio-label"><input type="radio" name="roast" value="dry"> Dry</label>
+          <label class="radio-label"><input type="radio" name="roast" value="sharp"> Sharp</label>
+          <label class="radio-label"><input type="radio" name="roast" value="savage" checked> Savage</label>
+        </div>
+
+        <div class="control-group">
+          <span style="font-weight: 700;">Language:</span>
+          <select class="select-custom">
+            <option value="python" selected>Python (.py)</option>
+            <option value="javascript">JavaScript (.js)</option>
+            <option value="typescript">TypeScript (.ts)</option>
+            <option value="java">Java (.java)</option>
+            <option value="c">C (.c)</option>
+            <option value="cpp">C++ (.cpp)</option>
+            <option value="go">Go (.go)</option>
+            <option value="rust">Rust (.rs)</option>
+          </select>
+        </div>
+
+        <button class="btn-dashed" onclick="toggleErrorDrawer()">+ Error Message</button>
+
+        <button class="btn-primary" onclick="simulateRoast()">
+          Roast My Code
+          <span class="shortcut-badge">Ctrl ⏎</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Error Drawer (Collapsible) -->
+    <div id="errorDrawer" class="error-drawer">
+      <div class="drawer-header">
+        <span>Attach Terminal Traceback / Compiler Error (Optional)</span>
+        <span style="cursor: pointer;" onclick="toggleErrorDrawer()">Dismiss ✕</span>
+      </div>
+      <textarea class="drawer-textarea" placeholder="TypeError: 'list' object cannot be interpreted as an integer at line 5..."></textarea>
+    </div>
+
+    <!-- Workstation Two-Column Body -->
+    <div class="workstation-body">
+
+      <!-- Left 55%: Code Editor Panel -->
+      <section class="editor-panel">
+        <div class="panel-header">
+          <span>INPUT // SRC &mdash; Your Code</span>
+          <div>
+            <a href="#" style="color: var(--ink); margin-right: 12px;" onclick="loadSampleCode(event)">[ SAMPLE BUG ]</a>
+            <a href="#" style="color: #888888;" onclick="clearCode(event)">[ CLEAR ]</a>
+          </div>
+        </div>
+
+        <div class="editor-container">
+          <div class="gutter">
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+            <div class="gutter-line error-target">5</div>
+            <div>6</div>
+            <div>7</div>
+            <div>8</div>
+            <div>9</div>
+          </div>
+          <textarea id="codeEditor" class="code-textarea" spellcheck="false">def calculate_average(numbers):
+    total = 0
+    for number in numbers:
+        # Bug: adding full list instead of element
+        total += numbers 
+    return total / len(numbers)
+
+print(calculate_average([10, 20, 30]))</textarea>
+        </div>
+
+        <div class="editor-status-strip">
+          <span>Ln 5, Col 18 &middot; PYTHON</span>
+          <span>UTF-8 &middot; Tab Size: 4</span>
+        </div>
+      </section>
+
+      <!-- Right 45%: Audit Report Panel -->
+      <section class="report-panel">
+        <div class="panel-header">
+          <span>AUDIT // REPORT &mdash; Roast Report</span>
+          <span style="color: #888888;">STATUS: READY</span>
+        </div>
+
+        <div id="stateContainer" class="state-container">
+          
+          <!-- RESULTS VIEW STATE -->
+          <div id="viewResults">
+            <!-- Section 01: Roast -->
+            <div class="section-block">
+              <div class="section-header">
+                <span class="section-num-title">01 // ROAST</span>
+                <span style="font-size: 10px; color: #666666;">STYLE: SAVAGE</span>
+              </div>
+              <div class="roast-quote">
+                &ldquo;Bhai, yeh loop har baar poori list add kar raha hai 😅. Python bhi soch raha hoga ki kya chal raha hai 🤦! Accumulator variables me list insert karne ka naya tarika invent kiya hai kya? 🔥&rdquo;
+              </div>
+            </div>
+
+            <!-- Section 02: What's Wrong -->
+            <div class="section-block">
+              <div class="section-header">
+                <span class="section-num-title">02 // WHAT'S WRONG</span>
+                <span style="font-size: 10px; color: var(--accent); font-weight: 700;">1 FATAL BUG FOUND</span>
+              </div>
+
+              <!-- Issue Card -->
+              <div class="issue-card">
+                <div class="issue-header">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span class="chip">01</span>
+                    <span style="font-weight: 700;">LINE 5</span>
+                  </div>
+                  <span class="badge-fatal">FATAL BUG</span>
+                </div>
+
+                <div class="code-snippet-box">total += numbers</div>
+
+                <div class="diag-line">
+                  <span class="diag-x">✕ Diagnosis:</span> Loop body adds iterable object <code>numbers</code> instead of iteration item <code>number</code>, causing a <code>TypeError</code>.
+                </div>
+                <div class="diag-line">
+                  <span class="diag-v">✓ Expected:</span> Add element <code>number</code> directly to <code>total</code> scalar.
+                </div>
+              </div>
+            </div>
+
+            <!-- Section 03: Fix -->
+            <div class="section-block">
+              <div class="section-header">
+                <span class="section-num-title">03 // FIX</span>
+                <span style="font-size: 10px; color: var(--opt); font-weight: 700;">CORRECTED CODE</span>
+              </div>
+
+              <div class="fixed-code-container">
+                <div class="fixed-code-header">
+                  <span>solution.py</span>
+                  <span style="color: var(--opt);">READY TO APPLY</span>
+                </div>
+                <div class="fixed-code-body">def calculate_average(numbers):
+    total = 0
+    for number in numbers:
+        total += number  # Fixed item accumulator
+    return total / len(numbers)</div>
+              </div>
+
+              <div class="fixed-code-actions">
+                <button class="btn-secondary">📋 Copy Fixed Code</button>
+                <button class="btn-secondary" style="background: var(--ink); color: #FFF;">Apply To Editor ↵</button>
+              </div>
+            </div>
+
+            <!-- Section 04: Takeaway -->
+            <div class="section-block" style="margin-bottom: 0;">
+              <div class="section-header">
+                <span class="section-num-title">04 // TAKEAWAY</span>
+              </div>
+              <div style="font-size: 12px; color: #333333; line-height: 1.6;">
+                Plural vs singular variable names matter! Always double-check your loop variable name before hitting run. 🚀
+              </div>
+            </div>
+
+          </div>
+
+          <!-- EMPTY STATE -->
+          <div id="viewEmpty" class="empty-state" style="display: none;">
+            <div class="state-icon-box">{}</div>
+            <div class="state-title">Awaiting Code Submission</div>
+            <div class="state-desc">
+              Paste your code on the left, select your language, then click "ROAST MY CODE" or press Ctrl+Enter.
+            </div>
+          </div>
+
+          <!-- LOADING STATE -->
+          <div id="viewLoading" class="empty-state" style="display: none;">
+            <div class="state-icon-box loading">/</div>
+            <div class="state-title">Analyzing Code</div>
+            <div class="state-desc">
+              Evaluating computational complexity, logic defects, and architectural purity...
+            </div>
+          </div>
+
+          <!-- ERROR STATE -->
+          <div id="viewError" class="empty-state" style="display: none;">
+            <div class="state-icon-box error">!</div>
+            <div class="state-title" style="color: var(--accent);">Analysis Failed</div>
+            <div class="state-desc" style="margin-bottom: 16px;">
+              GEMINI_API_KEY is missing or the server returned an unexpected error response.
+            </div>
+            <button class="btn-secondary" onclick="switchReportState('results')">Retry Analysis ↵</button>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Status Bar -->
+    <footer class="status-bar">
+      <div class="status-row-main">
+        <div>
+          <span class="status-indicator"></span>
+          <strong>STATUS: ONLINE</strong> (GEMINI 3.5 FLASH-LITE)
+          <span style="color: #888888; margin-left: 12px;">| ENGINE: GOOGLE GEMINI</span>
+        </div>
+        <div>
+          <strong>CODE ROASTER v3</strong> // LIVE
+        </div>
+      </div>
+      <div class="credits-row">
+        Made at GDG Nashik Pre-DevFest Workshop
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    function toggleErrorDrawer() {
+      const drawer = document.getElementById('errorDrawer');
+      drawer.classList.toggle('open');
+    }
+
+    function switchReportState(state) {
+      document.getElementById('viewResults').style.display = state === 'results' ? 'block' : 'none';
+      document.getElementById('viewEmpty').style.display = state === 'empty' ? 'flex' : 'none';
+      document.getElementById('viewLoading').style.display = state === 'loading' ? 'flex' : 'none';
+      document.getElementById('viewError').style.display = state === 'error' ? 'flex' : 'none';
+
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    function simulateRoast() {
+      switchReportState('loading');
+      setTimeout(() => {
+        switchReportState('results');
+      }, 1200);
+    }
+
+    function loadSampleCode(e) {
+      e.preventDefault();
+      document.getElementById('codeEditor').value = `def calculate_average(numbers):\n    total = 0\n    for number in numbers:\n        total += numbers # Bug here!\n    return total / len(numbers)`;
+    }
+
+    function clearCode(e) {
+      e.preventDefault();
+      document.getElementById('codeEditor').value = '';
+    }
+  </script>
+</body>
+</html>
